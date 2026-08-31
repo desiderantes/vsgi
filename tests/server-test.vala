@@ -22,17 +22,17 @@ public int main (string[] args) {
 	Test.init (ref args);
 
 	Test.add_func ("/server/new/cgi", () => {
-		var server = Server.@new ("cgi");
+		var server = Server.create ("cgi");
 		assert ("VSGICGIServer" == server.get_type ().name ());
 	});
 
 	Test.add_func ("/server/new/scgi", () => {
-		var server = Server.@new ("scgi");
+		var server = Server.create ("scgi");
 		assert ("VSGISCGIServer" == server.get_type ().name ());
 	});
 
 	Test.add_func ("/server/fork", () => {
-		var server = Server.@new ("http");
+		var server = Server.create ("http");
 		Pid pid;
 		try {
 			pid = server.fork ();

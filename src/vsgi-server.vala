@@ -32,6 +32,10 @@ namespace VSGI {
 	[Version (since = "0.1")]
 	public abstract class Server : Object {
 
+		[CCode (has_new_function = false)]
+		protected Server () {
+		}
+
 		private static HashTable<string, ServerModule>? _server_modules = null;
 
 		/**
@@ -74,7 +78,8 @@ namespace VSGI {
 		 * Instantiate a new {@link VSGI.Server} with varidic arguments.
 		 */
 		[Version (since = "0.3")]
-		public static new Server? @new (string name, ...) {
+		[CCode (sentinel = "NULL")]
+		public static new Server? create (string name, ...) {
 			return @new_valist (name, va_list ());
 		}
 
@@ -89,7 +94,7 @@ namespace VSGI {
 		 */
 		[Version (since = "0.4", experimental = true)]
 		public static new Server? new_with_handler (string name, Handler handler) {
-			return @new (name, handler: handler);
+			return create(name, handler: handler);
 		}
 
 		/**

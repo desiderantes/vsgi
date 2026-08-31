@@ -93,7 +93,7 @@ namespace VSGI {
 			foreach (var arg in args[3:args.length])
 				server_args += arg;
 
-		var server = Server.new (server);
+		var server = Server.create (server);
 
 		try {
 			if (app_module.handler_type.is_a (typeof (Initable))) {

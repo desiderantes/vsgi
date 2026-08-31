@@ -6,6 +6,7 @@ shared_module('vsgi-http', ['vsgi-http.vala'],
 
 shared_module('vsgi-cgi', 'vsgi-cgi.vala',
         dependencies: [glib, gobject, gio, gio_unix, soup, vsgi_dep],
+        vala_args: ['--vapi', vsgi_internal_vapi],
         install: true,
         install_dir: join_paths(get_option('libdir'), 'vsgi-@0@/servers'.format(api_version)))
 
@@ -15,11 +16,13 @@ if get_option('with_fcgi')
     vsgi_fastcgi_internal = meson.get_compiler('vala').find_library('vsgi-fastcgi-internal', dirs: meson.current_source_dir())
     shared_module('vsgi-fastcgi', ['vsgi-fastcgi.vala', 'vsgi-fastcgi-input-stream.c', 'vsgi-fastcgi-output-stream.c'],
                    dependencies: [glib, gobject, gio, gio_unix, soup, vsgi_dep, fcgi, fcgi_vapi, vsgi_fastcgi_internal],
+                   vala_args: ['--vapi', vsgi_internal_vapi],
                    install: true,
                    install_dir: join_paths(get_option('libdir'), 'vsgi-@0@/servers'.format(api_version)))
 endif
 
 shared_module('vsgi-scgi', 'vsgi-scgi.vala',
         dependencies: [glib, gobject, gio, soup, vsgi_dep],
+        vala_args: ['--vapi', vsgi_internal_vapi],
         install: true,
         install_dir: join_paths(get_option('libdir'), 'vsgi-@0@/servers'.format(api_version)))

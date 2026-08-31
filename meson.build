@@ -1,21 +1,22 @@
 project('vsgi', 'vala', 'c',
-        version: '0.4.0-dev',
+        version: '0.5.0-dev',
         license: 'LGPL',
-        meson_version: '>=0.46.0')
+        meson_version: '>=1.10.0')
 
-api_version = '0.4'
+api_version = '0.5'
 
 add_project_arguments(['--enable-experimental',
                        '--enable-deprecated',
-                       '--vapidir', join_paths(meson.current_source_dir(), 'vapi')],
+                       '--vapidir', join_paths(meson.current_source_dir(), 'vapi'),
+                       '--metadatadir', join_paths(meson.current_build_dir(), 'src')],
                       language: 'vala')
-
-glib = dependency('glib-2.0', version: '>=2.56')
-gobject = dependency('gobject-2.0', version: '>=2.56')
-gio = dependency('gio-2.0', version: '>=2.56')
-gio_unix = dependency('gio-unix-2.0', version: '>=2.56')
-gmodule = dependency('gmodule-2.0', version: '>=2.40')
-soup = dependency('libsoup-3.0')
+glib_version = '2.80'
+glib = dependency('glib-2.0', version: '>=@0@'.format(glib_version))
+gobject = dependency('gobject-2.0', version: '>=@0@'.format(glib_version))
+gio = dependency('gio-2.0', version: '>=@0@'.format(glib_version))
+gio_unix = dependency('gio-unix-2.0', version: '>=@0@'.format(glib_version))
+gmodule = dependency('gmodule-2.0', version: '>=@0@'.format(glib_version))
+soup = dependency('libsoup-3.0', version: '>=3.6.6')
 openssl = dependency('openssl')
 posix = meson.get_compiler('vala').find_library('posix')
 

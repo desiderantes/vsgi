@@ -30,7 +30,7 @@ public int main (string[] args) {
 			assert_not_reached ();
 		}
 
-		var https_server = Server.@new ("http", https: true, tls_certificate: tls_certificate);
+		var https_server = Server.create ("http", https: true, tls_certificate: tls_certificate);
 
 		try {
 			https_server.listen ();

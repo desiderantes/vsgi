@@ -45,13 +45,13 @@ namespace VSGI.FastCGI {
 		[Description (blurb = "Listen queue depth used in the listen() call")]
 		public int backlog { get; construct; default = 10; }
 
-		private SList<Soup.URI> _uris = new SList<Soup.URI> ();
+		private SList<Uri> _uris = new SList<Uri> ();
 
-		public override SList<Soup.URI> uris {
+		public override SList<Uri> uris {
 			owned get {
-				var copy_uris = new SList<Soup.URI> ();
+				var copy_uris = new SList<Uri> ();
 				foreach (var uri in _uris) {
-					copy_uris.append (uri.copy ());
+					copy_uris.append (uri);
 				}
 				return copy_uris;
 			}
@@ -62,7 +62,7 @@ namespace VSGI.FastCGI {
 
 			if (address == null) {
 				fd = global::FastCGI.LISTENSOCK_FILENO;
-				_uris.append (new Soup.URI ("fcgi+fd://%d/".printf (fd)));
+				_uris.append (Uri.parse ("fcgi+fd://%d/".printf (fd), UriFlags.NONE));
 			} else if (address is UnixSocketAddress) {
 				var socket_address = address as UnixSocketAddress;
 
@@ -72,7 +72,7 @@ namespace VSGI.FastCGI {
 					throw new IOError.FAILED ("Could not open socket path '%s'.", socket_address.path);
 				}
 
-				_uris.append (new Soup.URI ("fcgi+unix://%s/".printf (socket_address.path)));
+				_uris.append (Uri.parse ("fcgi+unix://%s/".printf (socket_address.path), UriFlags.NONE));
 			} else if (address is InetSocketAddress) {
 				var inet_address = address as InetSocketAddress;
 
@@ -92,7 +92,7 @@ namespace VSGI.FastCGI {
 					throw new IOError.FAILED ("Could not open TCP port '%" + uint16.FORMAT + "'.", port);
 				}
 
-				_uris.append (new Soup.URI (("fcgi://0.0.0.0:%" + uint16.FORMAT + "/").printf (port)));
+				_uris.append (Uri.parse (("fcgi://0.0.0.0:%" + uint16.FORMAT + "/").printf (port), UriFlags.NONE));
 			} else {
 				throw new IOError.NOT_SUPPORTED ("The FastCGI backend only support listening from 'InetSocketAddress' and 'UnixSocketAddress'.");
 			}

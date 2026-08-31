@@ -1,8 +1,8 @@
 import unittest
 import gi
 gi.require_version('GLib', '2.0')
-gi.require_version('Soup', '2.4')
-gi.require_version('VSGI', '0.4')
+gi.require_version('Soup', '3.0')
+gi.require_version('VSGI', '0.5')
 from gi.repository import GLib, Soup, VSGI
 
 class App(VSGI.Handler):
@@ -13,7 +13,7 @@ class GiTest(unittest.TestCase):
     def test_handler(self):
         app = App()
 
-        req = VSGI.Request(uri=Soup.URI.new("http://localhost:3003/"))
+        req = VSGI.Request(uri=GLib.Uri.parse("http://localhost:3003/", GLib.UriFlags.NONE))
         res = VSGI.Response(request=req)
 
         self.assertTrue(app.handle(req, res))

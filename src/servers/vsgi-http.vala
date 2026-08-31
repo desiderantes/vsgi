@@ -60,7 +60,7 @@ namespace VSGI.HTTP {
 			if (finished) {
 				throw new IOError.CONNECTION_CLOSED ("Connection closed by peer.");
 			}
-			server.unpause_message (message);
+			message.unpause ();
 			return true;
 		}
 
@@ -196,7 +196,7 @@ namespace VSGI.HTTP {
 				throw new IOError.CONNECTION_CLOSED ("Connection closed by peer.");
 			}
 			bytes_written = 0;
-			soup_server.unpause_message (message);
+			message.unpause ();
 			return true;
 		}
 	}
@@ -247,7 +247,7 @@ namespace VSGI.HTTP {
 				msg.set_status (Soup.Status.OK, null);
 
 				// prevent I/O as we handle everything asynchronously
-				server.pause_message (msg);
+				msg.pause ();
 
 				var req = new Request (msg, query);
 				var res = new Response (req, server, msg);

@@ -82,9 +82,9 @@ public abstract class VSGI.SocketServer : Server {
 			} else if (effective_address is UnixSocketAddress) {
 				var effective_unix_address = effective_address as UnixSocketAddress;
 				scheme = this.scheme + "+unix";
-				host = null;
-				path = effective_unix_address.get_path ();
-				port = 0;
+				host = effective_unix_address.get_path ();
+				path = "/";
+				port = -1;
 			} else {
 				assert_not_reached ();
 			}
@@ -94,7 +94,7 @@ public abstract class VSGI.SocketServer : Server {
 
 	public override void listen_socket (Socket socket) throws Error {
 		socket_service.add_socket (socket, null);
-		_uris.append (Uri.build (UriFlags.NONE, scheme + "+fd", null, null, 0, socket.get_fd ().to_string (), null, null));
+		_uris.append (Uri.build (UriFlags.NONE, scheme + "+fd", null, socket.get_fd ().to_string (), -1, "/", null, null));
 	}
 
 	public override void stop () {

@@ -13,5 +13,5 @@ class App : Handler
     }
 }
 
-Server.@new ("http", handler: new App ()).run ({"app", "--address=0.0.0.0:3003", "--forks=4"});
+Server.create ("http", handler: new App ()).run ({"app", "--address=0.0.0.0:3003", "--forks=4"});
 ```

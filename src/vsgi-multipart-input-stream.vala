@@ -18,6 +18,7 @@
 using GLib;
 
 #if HAVE_MEMMEM
+[CCode (cheader_filename = "string.h")]
 private extern void* memmem (uint8[] haystack, uint8[] needle);
 #else
 private void* memmem (uint8[] haystack, uint8[] needle) {

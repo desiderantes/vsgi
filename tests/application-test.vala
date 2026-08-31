@@ -6,7 +6,7 @@ public int main (string[] args) {
 
 	Test.add_func ("/application", () => {
 		if (Test.subprocess ()) {
-			var app = new VSGI.Application (Server.new ("http"));
+			var app = new VSGI.Application (Server.create ("http"));
 
 			Idle.add (() => {
 				app.quit ();
@@ -25,7 +25,7 @@ public int main (string[] args) {
 
 	Test.add_func ("/application/log-writer/journald", () => {
 		if (Test.subprocess ()) {
-			var app = new VSGI.Application (Server.new ("http"));
+			var app = new VSGI.Application (Server.create ("http"));
 
 			Idle.add (() => {
 				app.quit ();

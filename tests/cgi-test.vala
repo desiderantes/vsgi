@@ -41,7 +41,7 @@ int main (string[] args) {
 		assert (Soup.HTTPVersion.@1_0 == request.http_version);
 		assert ("CGI/1.1" == request.gateway_interface);
 		assert ("GET" == request.method);
-		assert ("root" == request.uri.get_user ());
+		assert ("root" == request.uri.get_userinfo ());
 		assert ("0.0.0.0" == request.uri.get_host ());
 		assert ("a=b" == request.uri.get_query ());
 		assert ("http://root@0.0.0.0:3003/?a=b" == request.uri.to_string ());

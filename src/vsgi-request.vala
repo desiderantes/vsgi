@@ -28,7 +28,7 @@ namespace VSGI {
 		/**
 		 * HTTP/1.1 standard methods.
 		 *
-		 * [[http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html]]
+		 * [[https://www.rfc-editor.org/rfc/rfc9110.html]]
 		 */
 		[Version (since = "0.1", experimental = true)]
 		public const string OPTIONS = "OPTIONS";
@@ -51,18 +51,23 @@ namespace VSGI {
 		 * PATCH method defined in RFC5789.
 		 *
 		 * [[http://tools.ietf.org/html/rfc5789]]
-		 *
-		 * This is a proposed standard, it is not part of the current HTTP/1.1
-		 * protocol.
 		 */
 		[Version (since = "0.1", experimental = true)]
 		public const string PATCH = "PATCH";
 
 		/**
+		 * QUERY method defined in RFC10008.
+		 *
+		 * [[http://tools.ietf.org/html/rfc10008]]
+		 */
+		[Version (since = "0.5", experimental = true)]
+		public const string QUERY = "QUERY";
+
+		/**
 		 * List of all supported HTTP methods.
 		 */
 		[Version (since = "0.1", experimental = true)]
-		public const string[] METHODS = {OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT, PATCH};
+		public const string[] METHODS = {OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT, PATCH, QUERY};
 
 		private IOStream _connection;
 
@@ -386,6 +391,8 @@ namespace VSGI {
 					this.headers.append (parts[0].substring (5).replace ("_", "-").casefold (), parts[1]);
 				}
 			}
+
+			_uri = Uri.build (UriFlags.NONE, _uri_scheme, _uri_userinfo, _uri_host, _uri_port, _uri_path_encoded, _uri_query, null);
 		}
 
 		construct {
@@ -396,12 +403,14 @@ namespace VSGI {
 				_headers = new Soup.MessageHeaders (Soup.MessageHeadersType.REQUEST);
 			}
 			if (_query == null) {
-				_query = _uri.get_query () == null ? null : (HashTable<string,string>) Soup.Form.decode (_uri.get_query ());
+				_query = _uri?.get_query () == null ? null : (HashTable<string,string>) Soup.Form.decode (_uri.get_query ());
 			} else {
-				_uri_query = Soup.Form.encode (_query);
+				_uri_query = Soup.Form.encode_hash (_query);
+				if (_uri != null) {
+					_uri = Uri.build (UriFlags.NONE, _uri.get_scheme (), _uri.get_userinfo (), _uri.get_host (), _uri.get_port (), _uri.get_path (), _uri_query, _uri.get_fragment ());
+				}
 			}
-			if (_uri == null) {
-				// TODO
+			if (_uri == null && _uri_scheme != null) {
 				_uri = Uri.build (UriFlags.ENCODED_PATH, _uri_scheme, _uri_userinfo, _uri_host, _uri_port, _uri_path_encoded, _uri_query, null);
 			}
 		}

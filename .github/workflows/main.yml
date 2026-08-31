@@ -8,14 +8,11 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-26.04]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Setup Vala PPA repository
-        run: sudo add-apt-repository --yes ppa:vala-team
+      - uses: actions/checkout@v7
 
       - name: Update APT cache
         run: sudo apt-get update --quiet
