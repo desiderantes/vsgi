@@ -23,7 +23,6 @@ using GLib;
  *
  * It is minimalist and relies on libsoup-3, a good and stable HTTP library.
  */
-[CCode (gir_namespace = "VSGI", gir_version = "0.4")]
 namespace VSGI {
 
 	[Version (since = "0.3")]

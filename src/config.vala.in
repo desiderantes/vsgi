@@ -1,0 +1,56 @@
+/*
+ * This file is part of Valum.
+ *
+ * Valum is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ *
+ * Valum is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Valum.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using GLib;
+
+namespace VSGI {
+	namespace Version {
+		public const string FULL = "@VERSION@";
+		public const uint MAJOR = @MAJOR_VERSION@;
+		public const uint MINOR = @MINOR_VERSION@;
+		public const uint MICRO = @MICRO_VERSION@;
+		public const string SUFFIX = "@VERSION_SUFFIX@";
+		public const string API = "@API_VERSION@";
+		
+		public static uint get_major_version() {
+			return MAJOR;
+		}
+		
+		public static uint get_minor_version () {
+			return MINOR;
+		}
+		
+		public static uint get_micro_version () {
+			return MICRO;
+		}
+		public static string get_version () {
+			return FULL;
+		}
+		
+		public static string get_version_suffix () {
+			return SUFFIX;
+		}
+		
+		public static bool has_version_suffix () {
+			return SUFFIX != "";
+		}
+		
+		public static string get_api_version () {
+			return API;
+		}
+	}
+}

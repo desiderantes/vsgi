@@ -1,15 +1,42 @@
-project('vsgi', 'vala', 'c',
-        version: '0.5.0-dev',
-        license: 'LGPL',
-        meson_version: '>=1.10.0')
+project(
+    'vsgi',
+    'vala',
+    'c',
+    version: '0.5.0-dev',
+    license: 'LGPL',
+    meson_version: '>=1.10.0',
+)
 
-api_version = '0.5'
+version_split = meson.project_version().split('.')
+MAJOR_VERSION = version_split[0].to_int()
+MINOR_VERSION = version_split[1].to_int()
 
-add_project_arguments(['--enable-experimental',
-                       '--enable-deprecated',
-                       '--vapidir', join_paths(meson.current_source_dir(), 'vapi'),
-                       '--metadatadir', join_paths(meson.current_build_dir(), 'src')],
-                      language: 'vala')
+if version_split.length() > 2
+    if '-' in version_split[2]
+        initial_micro = version_split[2].split('-')
+        MICRO_VERSION = initial_micro[0].to_int()
+        VERSION_SUFFIX = initial_micro[1]
+    else
+        MICRO_VERSION = version_split[2].to_int()
+        VERSION_SUFFIX = ''
+    endif
+else
+    MICRO_VERSION = 0
+    VERSION_SUFFIX = ''
+endif
+api_version = f'@MAJOR_VERSION@.@MINOR_VERSION@'
+
+add_project_arguments(
+    [
+        '--enable-experimental',
+        '--enable-deprecated',
+        '--vapidir',
+        join_paths(meson.current_source_dir(), 'vapi'),
+        '--metadatadir',
+        join_paths(meson.current_build_dir(), 'src'),
+    ],
+    language: 'vala',
+)
 glib_version = '2.80'
 glib = dependency('glib-2.0', version: '>=@0@'.format(glib_version))
 gobject = dependency('gobject-2.0', version: '>=@0@'.format(glib_version))
