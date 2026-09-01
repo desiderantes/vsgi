@@ -53,4 +53,6 @@ endif
 
 subdir('src')
 subdir('bin')
-subdir('tests')
+if get_option('enable_tests')
+    subdir('tests')
+endif
